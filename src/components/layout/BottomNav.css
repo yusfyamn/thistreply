@@ -1,0 +1,104 @@
+/* ===== BOTTOM NAV iPHONE RESPONSIVE ===== */
+
+/* Base styles */
+.bottom-nav-wrapper {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    display: flex;
+    justify-content: center;
+    padding-bottom: 32px;
+    padding-top: 60px;
+    pointer-events: none;
+    background: linear-gradient(to top, 
+        rgba(255,255,255,1) 0%, 
+        rgba(255,255,255,0.95) 25%, 
+        rgba(255,255,255,0.8) 45%, 
+        rgba(255,255,255,0.4) 70%, 
+        rgba(255,255,255,0) 100%
+    );
+}
+
+[data-theme="dark"] .bottom-nav-wrapper {
+    background: linear-gradient(to top, 
+        rgba(26,26,26,1) 0%, 
+        rgba(26,26,26,0.95) 25%, 
+        rgba(26,26,26,0.8) 45%, 
+        rgba(26,26,26,0.4) 70%, 
+        rgba(26,26,26,0) 100%
+    );
+}
+
+.bottom-nav-inner {
+    pointer-events: auto;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* Theme Toggle Button */
+.theme-toggle-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: #ffffff;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    color: #666;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+}
+
+[data-theme="dark"] .theme-toggle-btn {
+    background: #3d3d3d;
+    border-color: rgba(255, 255, 255, 0.15);
+    color: #fbbf24;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3), 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Dark mode for expandable tabs */
+[data-theme="dark"] .active-tab {
+    background: #4a2a33 !important;
+}
+
+[data-theme="dark"] .inactive-tab {
+    color: #a1a1aa;
+}
+
+[data-theme="dark"] .inactive-tab:hover {
+    background: #3d3d3d;
+    color: #e5e5e5;
+}
+
+/* iPhone 12 Pro Max, 13 Pro Max, 14 Plus, 14 Pro Max, 15 Plus, 15 Pro Max, 16 Plus, 16 Pro Max (430px) */
+@media (max-width: 430px) {
+    .bottom-nav-wrapper {
+        padding-bottom: 28px;
+    }
+}
+
+/* iPhone 12/12 Pro, 13/13 Pro, 14, 15, 15 Pro, 16, 16 Pro (390-393px) */
+@media (max-width: 393px) {
+    .bottom-nav-wrapper {
+        padding-bottom: 26px;
+    }
+}
+
+/* iPhone 12 mini (360px) */
+@media (max-width: 375px) {
+    .bottom-nav-wrapper {
+        padding-bottom: 24px;
+    }
+}
+
+/* Safe area for iPhone notch/home indicator */
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+    .bottom-nav-wrapper {
+        padding-bottom: calc(24px + env(safe-area-inset-bottom));
+    }
+}

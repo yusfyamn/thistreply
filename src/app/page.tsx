@@ -1,100 +1,103 @@
-import Image from "next/image";
+'use client';
+
+import Link from 'next/link';
+import './landing.css';
 
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <div className="landing-page">
+      {/* NAVBAR */}
+      <nav className="navbar">
+        <Link href="/" className="nav-logo"><span className="nav-logo-text">ThisReply</span></Link>
+        <Link href="/auth/signup" className="nav-btn">Try free</Link>
+      </nav>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+      {/* HERO SECTION */}
+      <section className="hero">
+        <div className="hero-phone">
+          <div className="phone-frame">
+            <img src="/images/image-url--screen.jpg-w-640-q-90" alt="ThisReply app interface preview" />
+          </div>
+          {/* Floating Tags */}
+          <div className="floating-tags">
+            <div className="floating-tag tag-1">
+              <span className="tag-emoji">💬</span>
+              <span className="tag-text">Perfect reply</span>
+            </div>
+            <div className="floating-tag tag-2">
+              <span className="tag-emoji">💕</span>
+              <span className="tag-text">More dates</span>
+            </div>
+            <div className="floating-tag tag-3">
+              <span className="tag-emoji">✨</span>
+              <span className="tag-text">AI powered</span>
+            </div>
+            <div className="floating-tag tag-4">
+              <span className="tag-emoji">🔒</span>
+              <span className="tag-text">Private</span>
+            </div>
+          </div>
         </div>
+        <div className="hero-clouds">
+          <img src="/images/cloud_left.svg" alt="" className="cloud cloud-left" />
+          <img src="/images/cloud_right.svg" alt="" className="cloud cloud-right" />
+        </div>
+        <div className="hero-text">
+          <h1 className="hero-title">
+            <span className="line">Send the</span>
+            <span className="line highlight">Right Reply</span>
+          </h1>
+          <p className="hero-tagline">AI picks the perfect reply. You just send.</p>
+          <div>
+            <Link href="/auth/signup" className="btn btn-download">
+              <span className="cta-text">Get Your Reply Now</span>
+              <span className="cta-badge">Free</span>
+            </Link>
+          </div>
+          <p className="hero-trust">47,000+ replies sent · 94% get replies back</p>
+        </div>
+      </section>
+
+      {/* MAIN CONTENT */}
+      <main className="main-content">
+        {/* FEATURE SECTION */}
+        <section className="features-section">
+          <div className="feature">
+            <div className="feature-image">
+              <img src="/images/image-url--illos-feature2.jpg-w-1080-q-75" alt="ThisReply AI response" />
+            </div>
+            <div className="feature-content yellow-theme">
+              <h2>One perfect reply</h2>
+              <p>No more &quot;which one should I pick?&quot; AI analyzes the conversation and gives you the best response.</p>
+            </div>
+          </div>
+        </section>
+
+        {/* FINAL CTA */}
+        <section className="final-cta-section">
+          <div className="final-cta-content">
+            <h2>Ready to get <br className="mobile-break" />more dates?</h2>
+            <p>Try it free. No credit card needed.</p>
+            <Link href="/auth/signup" className="final-cta-btn">
+              <span>Get Your Reply Now</span>
+              <span className="final-cta-badge">Free</span>
+            </Link>
+          </div>
+        </section>
       </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
+
+      {/* FOOTER */}
+      <footer className="styles_footer__ORjCf">
+        <div className="footer-simple">
+          <span className="footer-big-logo">ThisReply</span>
+          <div className="footer-legal-links">
+            <Link href="/privacy">Privacy</Link>
+            <span className="footer-divider">·</span>
+            <Link href="/terms">Terms</Link>
+            <span className="footer-divider">·</span>
+            <a href="mailto:hello@thisreply.app">Contact</a>
+          </div>
+        </div>
       </footer>
     </div>
   );
