@@ -123,7 +123,7 @@ export default function AuthPreviewPage() {
           {mode === 'signup' ? (
             <>Already have an account? <span style={{ color: '#ff4d6d', cursor: 'pointer' }} onClick={() => setMode('login')}>Sign in</span></>
           ) : (
-            <>Don't have an account? <span style={{ color: '#ff4d6d', cursor: 'pointer' }} onClick={() => setMode('signup')}>Sign up</span></>
+            <>Don&apos;t have an account? <span style={{ color: '#ff4d6d', cursor: 'pointer' }} onClick={() => setMode('signup')}>Sign up</span></>
           )}
         </p>
       </div>
