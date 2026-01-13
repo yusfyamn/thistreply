@@ -8,6 +8,10 @@ CREATE TABLE IF NOT EXISTS profiles (
   subscription_end_date TIMESTAMPTZ,
   daily_analyses_used INT DEFAULT 0,
   daily_reset_date DATE DEFAULT CURRENT_DATE,
+  referral_code TEXT UNIQUE DEFAULT substring(md5(random()::text) from 1 for 8),
+  referred_by UUID REFERENCES profiles(id),
+  referral_count INT DEFAULT 0,
+  bonus_credits INT DEFAULT 0,
   created_at TIMESTAMPTZ DEFAULT NOW(),
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
@@ -75,3 +79,4 @@ $$ LANGUAGE plpgsql;
 CREATE INDEX IF NOT EXISTS idx_analyses_user_id ON analyses(user_id);
 CREATE INDEX IF NOT EXISTS idx_analyses_created_at ON analyses(created_at);
 CREATE INDEX IF NOT EXISTS idx_profiles_subscription_status ON profiles(subscription_status);
+CREATE INDEX IF NOT EXISTS idx_profiles_referral_code ON profiles(referral_code);

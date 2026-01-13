@@ -1,7 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { createClient } from '@/lib/supabase/client';
+import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import '../auth.css';
 
@@ -11,6 +12,8 @@ export default function SignupPage() {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
+  const searchParams = useSearchParams();
+  const referralCode = searchParams.get('ref');
   const supabase = createClient();
 
   const handleSignup = async (e: React.FormEvent) => {
@@ -18,7 +21,7 @@ export default function SignupPage() {
     setLoading(true);
     setError('');
 
-    const { error } = await supabase.auth.signUp({
+    const { data, error } = await supabase.auth.signUp({
       email,
       password,
       options: {
@@ -32,15 +35,33 @@ export default function SignupPage() {
       return;
     }
 
+    // If signup successful and referral code exists, apply it
+    if (data.user && referralCode) {
+      try {
+        await fetch('/api/referral', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ referralCode }),
+        });
+      } catch (err) {
+        console.error('Referral error:', err);
+      }
+    }
+
     setSuccess(true);
     setLoading(false);
   };
 
   const handleGoogleSignup = async () => {
+    let redirectUrl = `${window.location.origin}/auth/callback`;
+    if (referralCode) {
+      redirectUrl += `?ref=${referralCode}`;
+    }
+    
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: `${window.location.origin}/auth/callback`,
+        redirectTo: redirectUrl,
       },
     });
     if (error) setError(error.message);

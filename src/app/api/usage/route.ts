@@ -24,7 +24,7 @@ export async function GET() {
 
     const { data: profile, error: profileError } = await supabase
       .from('profiles')
-      .select('daily_analyses_used, daily_reset_date, subscription_status')
+      .select('daily_analyses_used, daily_reset_date, subscription_status, bonus_credits')
       .eq('id', user.id)
       .single();
 
@@ -42,12 +42,15 @@ export async function GET() {
 
     // Admins are treated as subscribed (unlimited)
     const isSubscribed = userIsAdmin || profile.subscription_status === 'active';
+    const bonusCredits = profile.bonus_credits || 0;
+    const totalLimit = FREE_DAILY_LIMIT + bonusCredits;
 
     return NextResponse.json({
       dailyAnalysesUsed: dailyUsed,
-      dailyLimit: FREE_DAILY_LIMIT,
+      dailyLimit: totalLimit,
+      bonusCredits,
       isSubscribed,
-      remainingAnalyses: isSubscribed ? Infinity : Math.max(0, FREE_DAILY_LIMIT - dailyUsed),
+      remainingAnalyses: isSubscribed ? Infinity : Math.max(0, totalLimit - dailyUsed),
     });
   } catch (error) {
     console.error('Usage error:', error);

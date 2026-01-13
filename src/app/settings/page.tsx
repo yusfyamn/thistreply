@@ -13,6 +13,8 @@ export default function SettingsPage() {
   const [loading, setLoading] = useState(true);
   const [usage, setUsage] = useState({ used: 0, limit: 3, isSubscribed: false });
   const [showPricing, setShowPricing] = useState(false);
+  const [referralData, setReferralData] = useState({ code: '', count: 0, bonusCredits: 0 });
+  const [copied, setCopied] = useState(false);
   const router = useRouter();
   const supabase = createClient();
 
@@ -38,6 +40,17 @@ export default function SettingsPage() {
             status: usageData.isSubscribed ? 'active' : 'free' 
           });
         }
+
+        // Get referral data
+        const referralRes = await fetch('/api/referral');
+        if (referralRes.ok) {
+          const referralData = await referralRes.json();
+          setReferralData({
+            code: referralData.referralCode || '',
+            count: referralData.referralCount || 0,
+            bonusCredits: referralData.bonusCredits || 0,
+          });
+        }
       } catch (err) {
         console.error('Failed to fetch data:', err);
       } finally {
@@ -57,6 +70,17 @@ export default function SettingsPage() {
   const handleCancelSubscription = async () => {
     if (!confirm('Are you sure you want to cancel your subscription?')) return;
     alert('Subscription cancelled');
+  };
+
+  const handleCopyReferral = async () => {
+    const referralLink = `${window.location.origin}/auth/signup?ref=${referralData.code}`;
+    try {
+      await navigator.clipboard.writeText(referralLink);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy:', err);
+    }
   };
 
   const remaining = Math.max(0, usage.limit - usage.used);
@@ -135,6 +159,53 @@ export default function SettingsPage() {
               Contact Support
             </a>
           </div>
+        </section>
+
+        {/* Referral Section */}
+        <section className="settings-section">
+          <h2 className="settings-section-title">Invite Friends</h2>
+          <p style={{ color: '#999', fontSize: '14px', marginBottom: '16px' }}>
+            Share your referral link and get +2 bonus credits for each friend who signs up!
+          </p>
+          <div style={{ 
+            background: '#1a1a1a', 
+            padding: '16px', 
+            borderRadius: '12px',
+            border: '1px solid #2a2a2a',
+            marginBottom: '16px'
+          }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '12px' }}>
+              <span style={{ color: '#999', fontSize: '14px' }}>Your referral code</span>
+              <span style={{ color: '#fff', fontWeight: '600', fontFamily: 'monospace' }}>
+                {referralData.code || 'Loading...'}
+              </span>
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '12px' }}>
+              <span style={{ color: '#999', fontSize: '14px' }}>Friends invited</span>
+              <span style={{ color: '#fff', fontWeight: '600' }}>{referralData.count}</span>
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <span style={{ color: '#999', fontSize: '14px' }}>Bonus credits earned</span>
+              <span style={{ color: '#4ade80', fontWeight: '600' }}>+{referralData.bonusCredits}</span>
+            </div>
+          </div>
+          <button 
+            onClick={handleCopyReferral}
+            style={{
+              width: '100%',
+              padding: '12px',
+              background: copied ? '#4ade80' : '#ff4d6d',
+              color: '#fff',
+              border: 'none',
+              borderRadius: '12px',
+              fontSize: '15px',
+              fontWeight: '600',
+              cursor: 'pointer',
+              transition: 'all 0.2s'
+            }}
+          >
+            {copied ? '✓ Link Copied!' : '📋 Copy Referral Link'}
+          </button>
         </section>
 
         {/* Logout Button */}
