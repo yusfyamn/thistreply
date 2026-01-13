@@ -1,7 +1,9 @@
 // Admin utilities
 import { createClient } from '@/lib/supabase/server';
+import { cookies } from 'next/headers';
 
 export async function isAdmin(): Promise<boolean> {
+  const cookieStore = cookies();
   const supabase = createClient();
   
   const { data: { user } } = await supabase.auth.getUser();
