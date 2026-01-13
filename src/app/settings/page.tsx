@@ -13,7 +13,6 @@ export default function SettingsPage() {
   const [loading, setLoading] = useState(true);
   const [usage, setUsage] = useState({ used: 0, limit: 3, isSubscribed: false });
   const [showPricing, setShowPricing] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
   const router = useRouter();
   const supabase = createClient();
 
@@ -24,10 +23,6 @@ export default function SettingsPage() {
         const { data: { user } } = await supabase.auth.getUser();
         if (user) {
           setUser({ email: user.email || '' });
-          
-          // Check if admin
-          const adminEmails = process.env.NEXT_PUBLIC_ADMIN_EMAILS?.split(',').map(e => e.trim()) || [];
-          setIsAdmin(adminEmails.includes(user.email || ''));
         }
 
         // Get usage
@@ -141,18 +136,6 @@ export default function SettingsPage() {
             </a>
           </div>
         </section>
-
-        {/* Admin Panel */}
-        {isAdmin && (
-          <section className="settings-section">
-            <h2 className="settings-section-title">Admin</h2>
-            <div className="settings-section-content">
-              <Link href="/admin" className="settings-link">
-                🔐 Admin Panel →
-              </Link>
-            </div>
-          </section>
-        )}
 
         {/* Logout Button */}
         <button onClick={handleLogout} className="logout-btn">
