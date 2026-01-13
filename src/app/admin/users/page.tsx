@@ -4,7 +4,7 @@ import { createClient } from '@/lib/supabase/server';
 export default async function AdminUsers() {
   await requireAdmin();
   
-  const supabase = createClient();
+  const supabase = await createClient();
   
   // Get all users with their usage stats
   const { data: users } = await supabase

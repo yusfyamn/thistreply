@@ -4,7 +4,7 @@ import { createClient } from '@/lib/supabase/server';
 export default async function AdminDashboard() {
   await requireAdmin();
   
-  const supabase = createClient();
+  const supabase = await createClient();
   
   // Get total users
   const { count: totalUsers } = await supabase
